@@ -1,0 +1,6 @@
+{
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": false,
+    "editor.guides.highlightActiveBracketPair": true,
+    "editor.guides.bracketPairs": true,
+    "editor.autoClosingBrackets": "always"
+}

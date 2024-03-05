@@ -1,4 +1,5 @@
 //using API.Data;
+//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
 //using Microsoft.EntityFrameworkCore;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,12 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddCors();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+// Configure the H0TTP request pipeline.
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.MapControllers();
 
