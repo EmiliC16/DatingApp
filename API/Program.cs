@@ -1,15 +1,11 @@
 //using API.Data;
 //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
 //using Microsoft.EntityFrameworkCore;
-using System.Text;
-using API.Data;
+using Microsoft.Extensions.DependencyInjection;
+
 using API.Extentions;
-using API.Interfaces;
-using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using API.Middleware;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +16,10 @@ builder.Services.AddAplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionMiddleware>();
 // Configure the H0TTP request pipeline.
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
-        .WithOrigins("http://localhost:4200"));
+        .WithOrigins("https://localhost:4200"));
 
         app.UseAuthentication();
         app.UseAuthorization();

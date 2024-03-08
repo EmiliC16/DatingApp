@@ -18,7 +18,6 @@ export class NavComponent implements OnInit {
      private toastr : ToastrService)  { }
 
   ngOnInit(): void {
-
   }
 
   login(){
@@ -29,6 +28,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(){
+    this.accountService.logout();
     this.router.navigateByUrl('/')
   }
 }

@@ -8,7 +8,7 @@ import { User } from '../_models/user';
 })
 export class AccountService {
 
-  baseUrl='https://localhost5001/api/';
+  baseUrl='https://localhost:5001/api/';
   private currentUserSource= new BehaviorSubject<User | null>(null);
   currentUser$= this.currentUserSource.asObservable();
 
@@ -17,7 +17,6 @@ export class AccountService {
   login(model: any){
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
-
         const user = response;
         if(user){
           localStorage.setItem('user', JSON.stringify(user));
@@ -34,7 +33,7 @@ export class AccountService {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
-        return user;
+      return user;
       })
     )
   }

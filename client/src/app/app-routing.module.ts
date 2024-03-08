@@ -6,10 +6,11 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { authGuard } from './_guards/auth.guard';
+import { TestErrorComponent } from './errors/test-error/test-error.component';
 
 const routes: Routes = [
   {path: '' , component : HomeComponent},
-  {path: '/',
+  {path: '',
     runGuardsAndResolvers:'always',
     canActivate: [authGuard],
     children: [
@@ -21,7 +22,7 @@ const routes: Routes = [
 
     ]
   },
-
+{path: 'errors', component: TestErrorComponent},
   {path: '**' , component : HomeComponent, pathMatch:'full' } ,
 ];
 
