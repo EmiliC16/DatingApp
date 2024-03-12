@@ -32,8 +32,11 @@ namespace API.Controllers
         public ActionResult<string> GetServerError()
         {
             var thing = _context.Users.Find(-1);
+            if (thing == null)
+            {
+                return NotFound("User not found."); // Return 404 Not Found response
+            }
             var thingToReturn = thing.ToString();
-
             return thingToReturn;
         }
 

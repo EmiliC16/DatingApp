@@ -9,13 +9,13 @@ namespace API.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<byte[]>(
-                name:"passwordHash",
+                name:"PasswordHash",
                 table:"Users",
                 type:"BLOB",
                 nullable: true);
             
             migrationBuilder.AddColumn<byte[]>(
-                name:"passwordSalt",
+                name:"PasswordSalt",
                 table:"Users",
                 type:"BLOB",
                 nullable: true);
