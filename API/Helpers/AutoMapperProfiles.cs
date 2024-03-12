@@ -1,7 +1,8 @@
+using AutoMapper;
 using API.DTOs;
 using API.Entities;
 using API.Extentions;
-using AutoMapper;
+
 
 namespace API.Helpers
 {
