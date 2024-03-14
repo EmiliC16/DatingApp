@@ -1,14 +1,8 @@
-//using API.Data;
+using API.Data;
 //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
-//using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-
 using API.Extentions;
 using API.Middleware;
-using API.Data;
 using Microsoft.EntityFrameworkCore;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,7 +19,8 @@ app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
 
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
+
 
 app.MapControllers();
 using var scope= app.Services.CreateScope();
