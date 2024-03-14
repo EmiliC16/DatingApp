@@ -368,6 +368,7 @@ FodyWeavers.xsd
 ## Visual studio for Mac
 ##
 
+API/appsettings.json
 
 # globs
 Makefile.in
@@ -452,3 +453,4 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+API/appsettings.json
