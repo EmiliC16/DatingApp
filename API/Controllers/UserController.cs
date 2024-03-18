@@ -26,10 +26,10 @@ public class UserController : BaseApiController
         var users = await _userRepository.GetMembersAsync();
         return Ok(users);
     }
-    [HttpGet("{UserName}")]
-    public async Task<ActionResult<MemberDto>> GetUser(string UserName)
+    [HttpGet("{Username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string Username)
     {
-        return await _userRepository.GetMembersAsync(UserName);
+        return await _userRepository.GetMembersAsync(Username);
     }
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
@@ -48,7 +48,7 @@ public class UserController : BaseApiController
     {
         var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
 
-        var result = await _photoService.AddPhotoAsync(file);
+       var result = await _photoService.AddPhotoAsync(file);
 
         if (result.Error != null) return BadRequest(result.Error.Message);
 
@@ -63,7 +63,7 @@ public class UserController : BaseApiController
         user.Photos.Add(photo);
 
         if (await _userRepository.SaveAllAsync())
-            return CreatedAtAction(nameof(GetUser), new { UserName = user.UserName },
+            return CreatedAtAction(nameof(GetUser), new { username = user.Username },
                 _mapper.Map<PhotoDto>(photo));
 
         return BadRequest("Problem adding photo");

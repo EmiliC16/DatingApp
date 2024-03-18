@@ -20,7 +20,7 @@
 
     <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
       <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
-      <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.UserName | titlecase}}</a>
+      <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.Username | titlecase}}</a>
       <div class="dropdown-menu" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
         <a class="dropdown-item" (click)="logout()">Logout</a>
@@ -29,11 +29,11 @@
 
     <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
       <input
-        name="UserName"
-        [(ngModel)]="model.UserName"
+        name="Username"
+        [(ngModel)]="model.Username"
         class="form-control me-2"
         type="text"
-        placeholder="UserName">
+        placeholder="Username">
       <input
         name="password"
         [(ngModel)]="model.password"

@@ -29,8 +29,16 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeUploader();
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) {
+          this.user = user;
+          this.initializeUploader(); // Move initialization here
+        }
+      }
+    });
   }
+
 
   fileOverBase(e: any) {
     this.hasBaseDropZoneOver = e;
@@ -73,7 +81,7 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
+      file.withCredentials = false
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
