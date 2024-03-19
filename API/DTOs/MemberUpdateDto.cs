@@ -1,5 +1,4 @@
-namespace API.DTOs
-{
+namespace API;
     public class MemberUpdateDto
     {
             public string Introduction { get; set; }
@@ -9,4 +8,3 @@ namespace API.DTOs
             public string Country { get; set; }
         
     }
-}

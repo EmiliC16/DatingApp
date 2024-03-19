@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using API.DTOs;
-using API.Entities;
+﻿using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
@@ -26,15 +24,16 @@ public class UserController : BaseApiController
         var users = await _userRepository.GetMembersAsync();
         return Ok(users);
     }
-    [HttpGet("{Username}")]
-    public async Task<ActionResult<MemberDto>> GetUser(string Username)
+      [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-        return await _userRepository.GetMembersAsync(Username);
+        return await _userRepository.GetMemberAsync(username);
     }
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
     {
-        var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
         _mapper.Map(memberUpdateDto, user);
 
         _userRepository.Update(user);
@@ -46,9 +45,9 @@ public class UserController : BaseApiController
     [HttpPost("add-photo")]
     public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
     {
-        var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-       var result = await _photoService.AddPhotoAsync(file);
+        var result = await _photoService.AddPhotoAsync(file);
 
         if (result.Error != null) return BadRequest(result.Error.Message);
 
@@ -63,7 +62,7 @@ public class UserController : BaseApiController
         user.Photos.Add(photo);
 
         if (await _userRepository.SaveAllAsync())
-            return CreatedAtAction(nameof(GetUser), new { username = user.Username },
+            return CreatedAtAction(nameof(GetUser), new { username = user.UserName },
                 _mapper.Map<PhotoDto>(photo));
 
         return BadRequest("Problem adding photo");
@@ -72,7 +71,7 @@ public class UserController : BaseApiController
     [HttpPut("set-main-photo/{photoId}")]
     public async Task<ActionResult> SetMainPhoto(int photoId)
     {
-        var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
@@ -92,7 +91,7 @@ public class UserController : BaseApiController
     [HttpDelete("delete-photo/{photoId}")]
     public async Task<ActionResult> DeletePhoto(int photoId)
     {
-        var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 

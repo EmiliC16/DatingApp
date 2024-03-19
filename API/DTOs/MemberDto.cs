@@ -1,8 +1,4 @@
-
-
-namespace API.DTOs
-{
-    
+namespace API;
 public class MemberDto
 {
         public int Id { get; set; }
@@ -21,4 +17,3 @@ public class MemberDto
         public List<PhotoDto> Photos { get; set; }
 }
    
-}

@@ -32,7 +32,7 @@ public class PhotoService : IPhotoService
             {
                 File = new FileDescription(file.FileName, stream),
                 Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"),
-                Folder = "da-net7"
+                Folder = "da-net7u"
             };
             uploadResult = await _cloudinary.UploadAsync(uploadParams);
         }
@@ -40,10 +40,10 @@ public class PhotoService : IPhotoService
         return uploadResult;
     }
 
-    public async Task<DeletionResult> DeletePhotoAsync(string PublicId)
+    public async Task<DeletionResult> DeletePhotoAsync(string publicId)
     {
-        var deleteParams = new DeletionParams(PublicId);
+        var deleteParams = new DeletionParams(publicId);
 
         return await _cloudinary.DestroyAsync(deleteParams);
     }
-}   
+}

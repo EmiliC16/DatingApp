@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+﻿﻿using System.Security.Cryptography;
 using System.Text;
 using API.Data;
 using API.DTOs;
@@ -19,11 +19,11 @@ public class AccountController : BaseApiController
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        if (await UserExists(registerDto.UserName)) return BadRequest("Username is taken");
+        if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
         using var hmac = new HMACSHA512();
         var user = new AppUser
         {
-            Username = registerDto.UserName.ToLower(),
+            UserName = registerDto.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
             PasswordSalt = hmac.Key
         };
@@ -31,7 +31,7 @@ public class AccountController : BaseApiController
         await _context.SaveChangesAsync();
         return new UserDto
         {
-            UserName = user.Username,
+            Username = user.UserName,
             Token = _tokenService.CreateToken(user)
         };
     }
@@ -40,7 +40,7 @@ public class AccountController : BaseApiController
     {
         var user = await _context.Users
             .Include(p => p.Photos)
-            .SingleOrDefaultAsync(x => x.Username == loginDto.Username);
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
         if (user == null) return Unauthorized("Invalid username");
         using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -51,14 +51,14 @@ public class AccountController : BaseApiController
         }
         return new UserDto
         {
-            UserName = user.Username,
+            Username = user.UserName,
             Token = _tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
         };
     }
 
-    private async Task<bool> UserExists(string UserName)
+    private async Task<bool> UserExists(string username)
     {
-        return await _context.Users.AnyAsync(x => x.Username == UserName.ToLower());
+        return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
     }
 }

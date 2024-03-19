@@ -1,9 +1,8 @@
 using API.Data;
+using API.Errors;
 using API.Extensions;
 
 //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
-using API.Extentions;
-using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 

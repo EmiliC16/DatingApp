@@ -14,29 +14,32 @@ import { MembersService } from 'src/app/_services/members.service';
   imports: [CommonModule, TabsModule, GalleryModule]
 })
 export class MemberDetailComponent implements OnInit {
-
   member: Member | undefined;
   images: GalleryItem[] = [];
 
   constructor(private memberService: MembersService, private route: ActivatedRoute) { }
-  ngOnInit(): void{
+
+  ngOnInit(): void {
     this.loadMember();
+
   }
-  loadMember(){
-    const UserName=this.route.snapshot.paramMap.get('UserName');
-    if(!UserName) return;
-    this.memberService.getMember(UserName).subscribe({
-      next: member =>{
-       this.member = member,
-      this.getImages()
+
+  loadMember() {
+    const username = this.route.snapshot.paramMap.get('username');
+    if (!username) return;
+    this.memberService.getMember(username).subscribe({
+      next: member => {
+        this.member = member,
+        this.getImages()
       }
     })
   }
 
-  getImages(){
-    if(!this.member) return;
-    for (const photo of this.member?.photos){
-        this.images.push(new ImageItem({src:photo.Url, thumb:photo.Url}));
+  getImages() {
+    if (!this.member) return;
+    for (const photo of this.member?.photos) {
+      this.images.push(new ImageItem({src: photo.url, thumb: photo.url}));
     }
   }
+
 }

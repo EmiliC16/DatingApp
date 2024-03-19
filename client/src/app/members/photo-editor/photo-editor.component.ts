@@ -16,9 +16,9 @@ import { environment } from 'src/environments/environment';
 export class PhotoEditorComponent implements OnInit {
   @Input() member: Member | undefined;
   uploader: FileUploader | undefined;
-  hasBaseDropZoneOver = false;
+  hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
-  user: User | undefined
+  user: User | undefined;
 
   constructor(private accountService: AccountService, private memberService: MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -29,31 +29,23 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => {
-        if (user) {
-          this.user = user;
-          this.initializeUploader(); // Move initialization here
-        }
-      }
-    });
+    this.initializeUploader();
   }
 
-
   fileOverBase(e: any) {
-    this.hasBaseDropZoneOver = e;
+    this.hasBaseDropzoneOver = e;
   }
 
   setMainPhoto(photo: photo) {
     this.memberService.setMainPhoto(photo.id).subscribe({
       next: _ => {
         if (this.user && this.member) {
-          this.user.photoUrl = photo.Url;
+          this.user.photoUrl = photo.url;
           this.accountService.setCurrentUser(this.user);
-          this.member.photoUrl = photo.Url;
+          this.member.photoUrl = photo.url;
           this.member.photos.forEach(p => {
-            if (p.IsMain) p.IsMain = false;
-            if (p.id === photo.id) p.IsMain = true;
+            if (p.isMain) p.isMain = false;
+            if (p.id === photo.id) p.isMain = true;
           })
         }
       }
@@ -69,6 +61,7 @@ export class PhotoEditorComponent implements OnInit {
       }
     })
   }
+
   initializeUploader() {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-photo',
@@ -81,13 +74,13 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false
+      file.withCredentials = false;
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo = JSON.parse(response);
-        this.member?.photos.push(photo)
+        this.member?.photos.push(photo);
       }
     }
   }
