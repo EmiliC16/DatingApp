@@ -13,13 +13,14 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
 // Configure the H0TTP request pipeline.
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
         .WithOrigins("https://localhost:4200"));
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+app.UseAuthentication(); //first line should be
+
+app.UseAuthorization(); //second line should be
 
 
 

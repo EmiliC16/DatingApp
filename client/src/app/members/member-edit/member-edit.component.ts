@@ -20,14 +20,14 @@ export class MemberEditComponent implements OnInit {
     }
   }
   member: Member | undefined;
-  user: User | null | undefined;
+  user: User | null= null;
 
   constructor(private accountService: AccountService, private memberService: MembersService,
     private toastr: ToastrService) {
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
-    });
+    })
   }
 
   ngOnInit(): void {
@@ -38,10 +38,12 @@ export class MemberEditComponent implements OnInit {
     if (!this.user) return;
     this.memberService.getMember(this.user.username).subscribe({
       next: member => this.member = member
+
     })
   }
 
   updateMember() {
+
     this.memberService.updateMember(this.editForm?.value).subscribe({
       next: _ => {
         this.toastr.success('Profile updated successfully');

@@ -1,4 +1,4 @@
-namespace API;
+namespace API.DTOs;
     public class MemberUpdateDto
     {
             public string Introduction { get; set; }

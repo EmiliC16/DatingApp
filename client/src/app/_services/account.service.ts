@@ -15,6 +15,8 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
         const user = response;
+
+        localStorage.setItem('userToken', JSON.stringify(user.token));
         if (user) {
           this.setCurrentUser(user);
         }
@@ -27,6 +29,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+
         }
       })
     )
@@ -34,6 +37,9 @@ export class AccountService {
   setCurrentUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+
+
+
   }
   logout() {
     localStorage.removeItem('user');

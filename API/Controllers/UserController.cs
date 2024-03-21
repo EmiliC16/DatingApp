@@ -1,31 +1,34 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-namespace API.Controllers;
-[Authorize]
-public class UserController : BaseApiController
-{
+namespace API.Controllers{
+    [Authorize]
+
+    public class UsersController : BaseApiController
+  {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPhotoService _photoService;
 
-    public UserController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
+    public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
     {
         _photoService = photoService;
         _mapper = mapper;
         _userRepository = userRepository;
     }
-    [HttpGet]
+  
+   [HttpGet]
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
         var users = await _userRepository.GetMembersAsync();
         return Ok(users);
     }
       [HttpGet("{username}")]
-    public async Task<ActionResult<MemberDto>> GetUser(string username)
+    public async Task<ActionResult<MemberDto>>GetUser(string username)
     {
         return await _userRepository.GetMemberAsync(username);
     }
@@ -61,10 +64,10 @@ public class UserController : BaseApiController
 
         user.Photos.Add(photo);
 
-        if (await _userRepository.SaveAllAsync())
+        if (await _userRepository.SaveAllAsync()){
             return CreatedAtAction(nameof(GetUser), new { username = user.UserName },
                 _mapper.Map<PhotoDto>(photo));
-
+        }
         return BadRequest("Problem adding photo");
     }
 
@@ -111,4 +114,5 @@ public class UserController : BaseApiController
 
         return BadRequest("Problem deleting photo");
     }
+  }
 }
