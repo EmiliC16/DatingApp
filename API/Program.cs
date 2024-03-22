@@ -19,7 +19,6 @@ app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredential
         .WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication(); //first line should be
-
 app.UseAuthorization(); //second line should be
 
 
