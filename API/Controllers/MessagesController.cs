@@ -68,5 +68,27 @@ using Microsoft.AspNetCore.Mvc;
             return Ok(await _messageRepository.GetMessagesThread(currentUsername,username));
         }
 
+        [HttpDelete("{id}")]
+        
+            public async Task<ActionResult> DeleteMessage(int id)
+            {
+
+                var username=User.GetUsername();
+                var message= await _messageRepository.GetMessage(id);
+
+                if(message.SenderUsername != username
+                && message.RecipientUsername != username){
+                    return Unauthorized();
+            }
+                if(message.SenderUsername == username) message.SenderDeleted = true;
+                if(message.RecipientUsername == username) message.RecipientDeleted = true;
+
+                if(message.SenderDeleted && message.RecipientDeleted){
+                    _messageRepository.DeleteMessage(message);
+                }
+                if(await _messageRepository.SaveAllAsync()) return Ok();
+                return BadRequest("Problem Deleting the message");
+
       }
     }
+}
