@@ -26,6 +26,11 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagmentComponent } from './admin/user-managment/user-managment.component';
+import { PhotoManagmentComponent } from './admin/photo-managment/photo-managment.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
 
 @NgModule({
   declarations: [
@@ -46,6 +51,9 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     DatePickerComponent,
     AdminPanelComponent,
     HasRoleDirective,
+    UserManagmentComponent,
+    PhotoManagmentComponent,
+    RolesModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +68,7 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy}
   ],
   bootstrap: [AppComponent]
 })
